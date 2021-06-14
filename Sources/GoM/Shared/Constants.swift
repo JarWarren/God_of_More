@@ -8,10 +8,18 @@ import WarrenEngine
 enum Constants {
     static let parallaxLength = 2560.0
     static let animationSpeedFPS = 16
+    static let horizontalScrollSpeed = 2.0
+
     @EntityBuilder static var scarabComponents: [Component] {
         Sprite(texture: .scarab0)
         PhysicsBody(shape: .circle(radius: 16), type: .dynamic, offset: Position(x: 8, y: 8))
         ScarabBehavior()
+    }
+
+    @EntityBuilder static var powerupComponents: [Component] {
+        Sprite(texture: .iconScarab, tint: .yellow)
+        PhysicsBody(shape: .circle(radius: 16), type: .static, collisionBitMask: .none, detectionBitMask: .one)
+        PowerupBehavior()
     }
 }
 
@@ -22,4 +30,5 @@ extension Texture {
     static let scarab0 = Texture(fileName: "scarab0")
     static let scarab1 = Texture(fileName: "scarab1")
     static let scarab2 = Texture(fileName: "scarab2")
+    static let iconScarab = Texture(fileName: "iconScarab")
 }

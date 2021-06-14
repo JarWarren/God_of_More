@@ -13,9 +13,6 @@ let package = Package(
             name: "GoM",
             dependencies: ["WarrenEngine"],
         resources: [.copy("Resources")]
-        ),
-        .testTarget(
-            name: "GoMTests",
-            dependencies: ["GoM"]),
+        )
     ]
 )

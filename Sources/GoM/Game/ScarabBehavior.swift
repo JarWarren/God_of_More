@@ -9,10 +9,9 @@ class ScarabBehavior: Behavior {
     static var destination: Position = .zero
     weak var entity: Entity?
     weak var sprite: Sprite?
-    var body: PhysicsBody!
+    private var isAlive = true
 
     func behaviorWillStart() {
-        body = getPhysicsBody()
         sprite = getSprite()
         sprite?.animation = Animation(
             textures: [
@@ -27,9 +26,25 @@ class ScarabBehavior: Behavior {
     }
 
     func update(_ deltaTime: TimeInterval) {
-        let direction = (ScarabBehavior.destination - entityPosition).normal * 2
-        entityPosition += direction
-        sprite?.isFlippedHorizontally = direction.x < 0
+        if isAlive {
+            let direction = (ScarabBehavior.destination - entityPosition).normal * 2
+            entityPosition += direction
+            sprite?.isFlippedHorizontally = direction.x < 0
+            if Input.wasKeyPressed(.k) { die() }
+        } else {
+            entityPosition.x -= Constants.horizontalScrollSpeed
+            entityPosition.y += 3
+            if entityPosition.y > Window.height {
+                removeEntityFromScene()
+            }
+        }
+    }
+
+    func die() {
+        isAlive = false
+        sprite?.tint = .gray
+        sprite?.isFlippedVertically = true
+        sprite?.animation = nil
     }
 
     func behaviorWillTerminate() { }
