@@ -38,7 +38,7 @@ class GameScene: Scene {
 
         // starter scarab
         createEntity(
-            at: Position(x: 60, y: Window.height / 2),
+            at: Position(x: -16, y: Window.height / 2),
             components: { Constants.scarabComponents }
         )
     }
@@ -65,9 +65,11 @@ class GameScene: Scene {
             wadgetCountdown = Int.random(in: 200...280)
         }
         if rocCountdown <= 0 {
+            createEntity(at: Position(x: Window.width, y: Window.height / 2), components: { Constants.rocComponents })
             rocCountdown = Int.random(in: 800...960)
         }
         if petsuchosCountdown <= 0 {
+            createEntity(at: Position(x: Window.width, y: Window.height - 120), components: { Constants.petsuchosComponents })
             petsuchosCountdown = Int.random(in: 1000...2000)
         }
     }

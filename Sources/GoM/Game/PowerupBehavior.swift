@@ -12,20 +12,17 @@ class PowerupBehavior: Behavior, PhysicsBodyDelegate {
 
     func behaviorWillStart() {
         sprite = getSprite()
-        sprite?.width = 32
-        sprite?.height = 32
         body = getPhysicsBody()
         body?.delegate = self
     }
 
-    func update(_ deltaTime: TimeInterval) {
-        entityPosition.x -= Constants.horizontalScrollSpeed
-    }
+    func update(_ deltaTime: TimeInterval) { }
 
     func behaviorWillTerminate() { }
 
+    // FIXME: it feels like Scene should be the delegate of powerups and scarabs in order to track live scarab count
     func bodyDidEnter(_ body: PhysicsBody) {
-        scene?.createEntity(at: Position(x: 60, y: Window.height / 2), components: { Constants.scarabComponents })
+        scene?.createEntity(at: Position(x: -16, y: Window.height / 2), components: { Constants.scarabComponents })
         removeEntityFromScene()
     }
 
