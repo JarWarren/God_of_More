@@ -5,12 +5,21 @@
 import Foundation
 import WarrenEngine
 
+protocol ScarabDelegate: AnyObject {
+    func scarabDied()
+}
+
 class ScarabBehavior: Behavior, PhysicsBodyDelegate {
     static var destination: Position = .zero
     weak var entity: Entity?
     weak var sprite: Sprite?
     weak var body: PhysicsBody?
+    weak var delegate: ScarabDelegate?
     private var isAlive = true
+
+    init(delegate: ScarabDelegate? = nil) {
+        self.delegate = delegate
+    }
 
     func behaviorWillStart() {
         body = getPhysicsBody()
@@ -52,7 +61,10 @@ class ScarabBehavior: Behavior, PhysicsBodyDelegate {
     func behaviorWillTerminate() { }
 
     func bodyDidEnter(_ body: PhysicsBody) {
-        if body.categoryBitMask.contains(.two) { die() }
+        if body.categoryBitMask.contains(.two) {
+            die()
+            delegate?.scarabDied()
+        }
     }
 
     func bodyDidExit(_ body: PhysicsBody) { }

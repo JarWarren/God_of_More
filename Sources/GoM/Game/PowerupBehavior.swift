@@ -5,10 +5,19 @@
 import Foundation
 import WarrenEngine
 
+protocol PowerupDelegate: AnyObject {
+    func powerupCollected()
+}
+
 class PowerupBehavior: Behavior, PhysicsBodyDelegate {
     weak var entity: Entity?
     weak var body: PhysicsBody?
     weak var sprite: Sprite?
+    weak var delegate: PowerupDelegate?
+
+    init(delegate: PowerupDelegate? = nil) {
+        self.delegate = delegate
+    }
 
     func behaviorWillStart() {
         sprite = getSprite()
@@ -22,9 +31,10 @@ class PowerupBehavior: Behavior, PhysicsBodyDelegate {
 
     func behaviorWillTerminate() { }
 
-    // FIXME: it feels like Scene should be the delegate of powerups and scarabs in order to track live scarab count
     func bodyDidEnter(_ body: PhysicsBody) {
-        scene?.createEntity(at: Position(x: -16, y: Window.height / 2), components: { Constants.scarabComponents })
+        // notify delegate
+        delegate?.powerupCollected()
+        //  cleanup self
         removeEntityFromScene()
     }
 
