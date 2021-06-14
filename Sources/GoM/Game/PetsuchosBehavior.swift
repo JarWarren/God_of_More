@@ -10,7 +10,9 @@ class PetsuchosBehavior: Behavior {
 
     func behaviorWillStart() { }
 
-    func update(_ deltaTime: TimeInterval) { }
+    func update(_ deltaTime: TimeInterval) {
+        if entityPosition.x < -330 { removeEntityFromScene() }
+    }
 
     func behaviorWillTerminate() { }
 }

@@ -8,7 +8,7 @@ import WarrenEngine
 class RocBehavior: Behavior {
     static let spriteSheet = SpriteSheet(fileName: "roc", rows: 2, columns: 5)
     weak var entity: Entity?
-    internal let direction = Vector(x: -1, y: Double.random(in: -2...2))
+    internal let direction = Vector(x: -2, y: Double.random(in: -2...2))
 
     func behaviorWillStart() {
         guard let spriteSheet = RocBehavior.spriteSheet else { return }
@@ -20,6 +20,7 @@ class RocBehavior: Behavior {
 
     func update(_ deltaTime: TimeInterval) {
         entityPosition += direction
+        if entityPosition.x < -120 { removeEntityFromScene() }
     }
 
     func behaviorWillTerminate() { }

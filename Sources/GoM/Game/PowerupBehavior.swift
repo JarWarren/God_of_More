@@ -16,7 +16,9 @@ class PowerupBehavior: Behavior, PhysicsBodyDelegate {
         body?.delegate = self
     }
 
-    func update(_ deltaTime: TimeInterval) { }
+    func update(_ deltaTime: TimeInterval) {
+        if entityPosition.x < -32 { removeEntityFromScene() }
+    }
 
     func behaviorWillTerminate() { }
 
