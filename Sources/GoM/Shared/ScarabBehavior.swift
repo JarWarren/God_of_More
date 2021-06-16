@@ -15,26 +15,18 @@ class ScarabBehavior: Behavior, PhysicsBodyDelegate {
     weak var sprite: Sprite?
     weak var body: PhysicsBody?
     weak var delegate: ScarabDelegate?
-    private var isAlive = true
+    private var isAlive: Bool
 
-    init(delegate: ScarabDelegate? = nil) {
+    init(delegate: ScarabDelegate? = nil, isAlive: Bool = true) {
         self.delegate = delegate
+        self.isAlive = isAlive
     }
 
     func behaviorWillStart() {
         body = getPhysicsBody()
         body?.delegate = self
         sprite = getSprite()
-        sprite?.animation = Animation(
-            textures: [
-                Texture.scarab2,
-                Texture.scarab1,
-                Texture.scarab0,
-            ],
-            framesPerSecond: Constants.animationSpeedFPS
-        )
-        sprite?.width = 16
-        sprite?.height = 16
+        if !isAlive { die() }
     }
 
     func update(_ deltaTime: TimeInterval) {
@@ -44,7 +36,7 @@ class ScarabBehavior: Behavior, PhysicsBodyDelegate {
             sprite?.isFlippedHorizontally = direction.x < 0
         } else {
             entityPosition.x -= Constants.horizontalScrollSpeed
-            entityPosition.y += 3
+            entityPosition.y += 2
             if entityPosition.y > Window.height {
                 removeEntityFromScene()
             }

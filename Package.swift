@@ -6,13 +6,13 @@ let package = Package(
     name: "GoM",
     platforms: [.macOS(.v11)],
     dependencies: [
-         .package(url: "https://github.com/JarWarren/WarrenEngine", .branch("tiled")),
+        .package(url: "https://github.com/JarWarren/WarrenEngine", .branch("tiled")),
     ],
     targets: [
         .executableTarget(
             name: "GoM",
             dependencies: ["WarrenEngine"],
-        resources: [.copy("Resources")]
+            resources: [.process("Resources")]
         )
     ]
 )

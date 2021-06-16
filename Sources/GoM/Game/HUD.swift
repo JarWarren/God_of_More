@@ -7,10 +7,10 @@ import WarrenEngine
 
 struct HUD: Canvas {
     var body: Canvas {
-        VStack {
+        HStack(alignment: .trailing) {
             Image("iconAnkh")
             Image("iconHorus")
             Image("iconScarab")
-        }.frame(height: 38)
+        }
     }
 }

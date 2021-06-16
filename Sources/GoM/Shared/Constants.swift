@@ -12,6 +12,7 @@ enum Constants {
 }
 
 extension Texture {
+    static let title = Texture(fileName: "title")
     static let background = Texture(fileName: "bg")
     static let pyramid = Texture(fileName: "mg0")
     static let city = Texture(fileName: "mg1")
@@ -20,4 +21,6 @@ extension Texture {
     static let scarab2 = Texture(fileName: "scarab2")
     static let iconScarab = Texture(fileName: "iconScarab")
     static let petsuchos = Texture(fileName: "petsuchos")
+    static let roc = Texture(fileName: "roc")
+    static let wadjet = Texture(fileName: "wadjet")
 }

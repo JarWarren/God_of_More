@@ -6,17 +6,10 @@ import Foundation
 import WarrenEngine
 
 class RocBehavior: Behavior {
-    static let spriteSheet = SpriteSheet(fileName: "roc", rows: 2, columns: 5)
     weak var entity: Entity?
-    internal let direction = Vector(x: -2, y: Double.random(in: -2...2))
+    internal let direction = Vector(x: -4, y: Double.random(in: -2...2))
 
-    func behaviorWillStart() {
-        guard let spriteSheet = RocBehavior.spriteSheet else { return }
-        getSprite()?.animation = Animation(
-            textures: spriteSheet[0...9],
-            framesPerSecond: Constants.animationSpeedFPS
-        )
-    }
+    func behaviorWillStart() { }
 
     func update(_ deltaTime: TimeInterval) {
         entityPosition += direction
