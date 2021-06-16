@@ -79,50 +79,81 @@ class GameScene: Scene {
                     textures: [
                         Texture.scarab2,
                         Texture.scarab1,
-                        Texture.scarab0,
+                        Texture.scarab0
                     ],
                     framesPerSecond: Constants.animationSpeedFPS
                 ),
                 width: 16,
                 height: 16
             )
-            PhysicsBody(shape: .circle(radius: 16), type: .dynamic, offset: Position(x: 8, y: 8), detectionBitMask: .two)
             ScarabBehavior(delegate: self)
+            PhysicsBody(
+                shape: .circle(radius: 16),
+                type: .dynamic,
+                offset: Position(x: 8, y: 8),
+                detectionBitMask: .two
+            )
         }
     }
 
     private func spawnWadjet() {
         createEntity(at: .zero) {
             Sprite(texture: .wadjet, width: 58, height: 56)
-            PhysicsBody(shape: .rectangle(size: Size(x: 58, y: 56)), type: .static, categoryBitMask: .two, collisionBitMask: .none)
             WadjetBehavior()
             HorizontalScrollBehavior()
+            PhysicsBody(
+                shape: .rectangle(size: Size(x: 58, y: 56)),
+                type: .static,
+                categoryBitMask: .two,
+                collisionBitMask: .none
+            )
         }
     }
 
     private func spawnPowerup() {
         createEntity(at: Position(x: Window.width, y: Double.random(in: 0...Window.height - 58))) {
             Sprite(texture: .iconScarab, width: 38, height: 58)
-            PhysicsBody(shape: .rectangle(size: Size(x: 38, y: 58)), type: .static, collisionBitMask: .none, detectionBitMask: .one)
             PowerupBehavior(delegate: self)
             HorizontalScrollBehavior()
+            PhysicsBody(
+                shape: .rectangle(size: Size(x: 38, y: 58)),
+                type: .static,
+                collisionBitMask: .none,
+                detectionBitMask: .one
+            )
         }
     }
 
     private func spawnRoc() {
-        createEntity(at: Position(x: Window.width, y: Double.random(in: (Window.height * 0.3)...(Window.height * 0.7)))) {
+        createEntity(
+            at: Position(
+                x: Window.width,
+                y: Double.random(in: (Window.height * 0.3)...(Window.height * 0.7))
+            )
+        ) {
             Sprite(texture: .roc, width: 100, height: 120)
-            PhysicsBody(shape: .rectangle(size: Size(x: 100, y: 120)), type: .static, categoryBitMask: .two, collisionBitMask: .none)
             RocBehavior()
             HorizontalScrollBehavior()
+            PhysicsBody(
+                shape: .rectangle(size: Size(x: 100, y: 120)),
+                type: .static,
+                categoryBitMask: .two,
+                collisionBitMask: .none
+            )
         }
     }
 
     private func spawnPetsuchos() {
         createEntity(at: Position(x: Window.width, y: Window.height - 120)) {
             Sprite(texture: .petsuchos)
-            PhysicsBody(shape: .rectangle(size: Size(x: 320, y: 80)), type: .static, offset: Vector(x: 0, y: 40), categoryBitMask: .two, collisionBitMask: .none)
             HorizontalScrollBehavior()
+            PhysicsBody(
+                shape: .rectangle(size: Size(x: 320, y: 80)),
+                type: .static,
+                offset: Vector(x: 0, y: 40),
+                categoryBitMask: .two,
+                collisionBitMask: .none
+            )
         }
     }
 }
