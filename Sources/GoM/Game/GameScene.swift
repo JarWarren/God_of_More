@@ -22,7 +22,7 @@ class GameScene: Scene {
         // background
         createEntity(at: .zero) {
             // background gradient
-            Sprite(texture: .background)
+            Sprite(id: "bg", texture: .background)
 
             // pyramid middleground
             Sprite(id: "pyramid0", texture: .pyramid)
@@ -72,6 +72,11 @@ class GameScene: Scene {
         }
     }
 
+    override func windowDidResize(to size: Size) {
+        super.windowDidResize(to: size)
+
+    }
+
     private func spawnScarab() {
         createEntity(at: Position(x: -16, y: Window.height / 2)) {
             Sprite(
@@ -86,13 +91,13 @@ class GameScene: Scene {
                 width: 16,
                 height: 16
             )
-            ScarabBehavior(delegate: self)
             PhysicsBody(
                 shape: .circle(radius: 16),
                 type: .dynamic,
                 offset: Position(x: 8, y: 8),
                 detectionBitMask: .two
             )
+            ScarabBehavior(delegate: self)
         }
     }
 
@@ -113,7 +118,6 @@ class GameScene: Scene {
     private func spawnPowerup() {
         createEntity(at: Position(x: Window.width, y: Double.random(in: 0...Window.height - 58))) {
             Sprite(texture: .iconScarab, width: 38, height: 58)
-            PowerupBehavior(delegate: self)
             HorizontalScrollBehavior()
             PhysicsBody(
                 shape: .rectangle(size: Size(x: 38, y: 58)),
@@ -121,6 +125,7 @@ class GameScene: Scene {
                 collisionBitMask: .none,
                 detectionBitMask: .one
             )
+            PowerupBehavior(delegate: self)
         }
     }
 

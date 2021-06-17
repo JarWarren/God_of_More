@@ -22,6 +22,8 @@ class ScarabBehavior: Behavior, PhysicsBodyDelegate {
         self.isAlive = isAlive
     }
 
+    func windowDidResize(to size: Size) { }
+
     func behaviorWillStart() {
         body = getPhysicsBody()
         body?.delegate = self
