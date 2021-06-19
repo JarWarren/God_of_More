@@ -7,17 +7,15 @@ import WarrenEngine
 
 class WadjetBehavior: Behavior {
     weak var entity: Entity?
-    private let isAscending = Bool.random()
+    private var initialY = 0.0
+    private let randomDate = Date().addingTimeInterval(Double.random(in: -1000...1000))
 
     func behaviorWillStart() {
-        entityPosition = Position(
-            x: Double.random(in: 0...Window.width),
-            y: isAscending ? Window.height : -56
-        )
+        initialY = entityPosition.y
     }
 
     func update(_ deltaTime: TimeInterval) {
-        entityPosition.y += isAscending ? -8 : 8
+        entityPosition.y = initialY + sin(Date().timeIntervalSince(randomDate)) * 100
     }
 
     func behaviorWillTerminate() { }

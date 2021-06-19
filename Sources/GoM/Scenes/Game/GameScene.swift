@@ -7,7 +7,7 @@ import WarrenEngine
 
 class GameScene: Scene {
     private var xTarget = Window.width / 2
-    private var scarabCount = 1
+    private var scarabCount = 0
 
     // MARK: - Setup
 
@@ -36,7 +36,7 @@ class GameScene: Scene {
         spawnScarab(Camera.target)
 
         // powerups
-        for xPosition in stride(from: 1000.0, through: 5000, by: 240) {
+        for xPosition in stride(from: 1000.0, through: 10000, by: 250) {
             createEntity(at:
             Vector(
                 x: xPosition,
@@ -52,6 +52,24 @@ class GameScene: Scene {
                 PowerupBehavior(delegate: self)
             }
         }
+
+        // wadjets
+        for xPosition in stride(from: 1000.0, through: 10000, by: 500) {
+            createEntity(at:
+            Vector(
+                x: xPosition + Double.random(in: -100...100),
+                y: Double.random(in: 100...Window.height - 200))
+            ) {
+                Sprite(texture: .wadjet, width: 100, height: 100)
+                PhysicsBody(
+                    shape: .rectangle(size: Size(x: 100, y: 100)),
+                    type: .static,
+                    categoryBitMask: .two,
+                    collisionBitMask: .none
+                )
+                WadjetBehavior()
+            }
+        }
     }
 
     // MARK: - Update
@@ -61,17 +79,14 @@ class GameScene: Scene {
         Game.isDebugMode = Input.isKeyDown(.space)
 
         // update camera position
-        let xPosition = Input.mousePosition.x
-        if xPosition > 1000 {
-            xTarget += 2
-        }
-
+        let mouse = Input.mousePosition
+        if mouse.x > 1000 { xTarget += 2 }
         Camera.target.x = xTarget
 
         // Tell Scarabs where to fly
         ScarabBehavior.destination = Vector(
-            x: xTarget + xPosition - Window.width / 2,
-            y: Input.mousePosition.y
+            x: xTarget + mouse.x - Window.width / 2,
+            y: mouse.y
         )
 
     }
@@ -79,14 +94,7 @@ class GameScene: Scene {
     private func spawnScarab(_ position: Vector = .zero) {
         createEntity(at: position) {
             Sprite(
-                animation: Animation(
-                    textures: [
-                        .scarab2,
-                        .scarab1,
-                        .scarab0
-                    ],
-                    framesPerSecond: 16
-                ),
+                animation: .flyingScarab,
                 width: 16,
                 height: 16
             )
@@ -98,18 +106,12 @@ class GameScene: Scene {
             )
             ScarabBehavior(delegate: self)
         }
+        scarabCount += 1
     }
 
     private func spawnWadjet() {
         createEntity(at: .zero) {
-            Sprite(texture: .wadjet, width: 58, height: 56)
-            WadjetBehavior()
-            PhysicsBody(
-                shape: .rectangle(size: Size(x: 58, y: 56)),
-                type: .static,
-                categoryBitMask: .two,
-                collisionBitMask: .none
-            )
+
         }
     }
 
@@ -148,7 +150,6 @@ class GameScene: Scene {
 extension GameScene: PowerupDelegate {
     func powerupCollected(at position: Vector) {
         spawnScarab(position)
-        scarabCount += 1
     }
 }
 

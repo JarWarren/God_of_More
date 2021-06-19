@@ -15,20 +15,16 @@ class ScarabBehavior: Behavior {
     weak var sprite: Sprite?
     weak var body: PhysicsBody?
     weak var delegate: ScarabDelegate?
-    private var isAlive: Bool
+    private var isAlive = true
 
-    init(delegate: ScarabDelegate? = nil, isAlive: Bool = true) {
+    init(delegate: ScarabDelegate? = nil) {
         self.delegate = delegate
-        self.isAlive = isAlive
     }
 
     func behaviorWillStart() {
         body = getPhysicsBody()
         body?.delegate = self
         sprite = getSprite()
-        if !isAlive {
-            die()
-        }
     }
 
     func update(_ deltaTime: TimeInterval) {
@@ -42,15 +38,12 @@ class ScarabBehavior: Behavior {
                 removeEntityFromScene()
             }
         }
-
-        if Input.wasKeyPressed(.k) {
-            die()
-        }
     }
 
     func behaviorWillTerminate() { }
 
     private func die() {
+        guard isAlive else { return }
         isAlive = false
         sprite?.tint = .gray
         sprite?.isFlippedVertically = true
@@ -63,7 +56,6 @@ extension ScarabBehavior: PhysicsBodyDelegate {
     func bodyDidEnter(_ body: PhysicsBody) {
         if body.categoryBitMask.contains(.two) {
             die()
-            delegate?.scarabDied()
         }
     }
 
