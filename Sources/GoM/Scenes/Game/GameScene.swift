@@ -44,9 +44,9 @@ class GameScene: Scene {
                 x: xPosition,
                 y: Double.random(in: 0...Window.height - 60)
             )) {
-                Sprite(texture: .iconScarab, width: 38, height: 58)
+                Sprite(texture: .iconScarab, width: 24, height: 24)
                 PhysicsBody(
-                    shape: .rectangle(size: Vector(x: 38, y: 58)),
+                    shape: .rectangle(size: Vector(x: 24, y: 24)),
                     type: .static,
                     collisionBitMask: .none,
                     detectionBitMask: .one
@@ -64,7 +64,7 @@ class GameScene: Scene {
             ) {
                 Sprite(texture: .wadjet, width: 100, height: 100)
                 PhysicsBody(
-                    shape: .rectangle(size: Size(x: 50, y: 100)),
+                    shape: .rectangle(size: Size(x: 40, y: 80)),
                     type: .static,
                     categoryBitMask: .two,
                     collisionBitMask: .none
@@ -78,9 +78,9 @@ class GameScene: Scene {
             createEntity(at: Vector(x: xPosition, y: Window.height - 120)) {
                 Sprite(texture: .petsuchos)
                 PhysicsBody(
-                    shape: .rectangle(size: Size(x: 320, y: 80)),
+                    shape: .rectangle(size: Size(x: 320, y: 60)),
                     type: .static,
-                    offset: Vector(x: 0, y: 40),
+                    offset: Vector(x: 0, y: 60),
                     categoryBitMask: .two,
                     collisionBitMask: .none
                 )
