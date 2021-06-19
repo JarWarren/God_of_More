@@ -6,7 +6,6 @@ import Foundation
 import WarrenEngine
 
 class GameScene: Scene {
-    private let yTarget = Window.height / 2
     private var xTarget = Window.width / 2
 
     // MARK: - Setup
@@ -18,7 +17,7 @@ class GameScene: Scene {
         // background
         createEntity(at: .zero) {
             // background gradient
-            Sprite(id: "bg", texture: .background)
+            Sprite(id: "bg", texture: .background, width: Int32(Window.width) + 100)
 
             // pyramid middleground
             Sprite(id: "pyramid0", texture: .pyramid)
@@ -50,7 +49,7 @@ class GameScene: Scene {
             xTarget += 2
         }
 
-        Camera.target = Vector(x: xTarget, y: yTarget)
+        Camera.target.x = xTarget
 
         // Tell Scarabs where to fly
         ScarabBehavior.destination = Vector(

@@ -13,6 +13,10 @@ class ParallaxBehavior: Behavior {
     weak var city0: Sprite?
     weak var city1: Sprite?
 
+    private let pyramidScrollFactor = 0.8
+    private let cityScrollFactor = 0.4
+    private let foregroundScrollFactor = 1.2
+
     func behaviorWillStart() {
         background = getSprite(id: "bg")
         pyramid0 = getSprite(id: "pyramid0")
@@ -22,17 +26,12 @@ class ParallaxBehavior: Behavior {
     }
 
     func update(_ deltaTime: TimeInterval) {
-        pyramid0?.offset.x -= 0.5
-        pyramid1?.offset.x -= 0.5
-        city0?.offset.x -= 1
-        city1?.offset.x -= 1
-        if pyramid0?.offset.x ?? 0 <= -Constants.parallaxLength { pyramid0?.offset.x = Constants.parallaxLength }
-        if pyramid1?.offset.x ?? 0 <= -Constants.parallaxLength { pyramid1?.offset.x = Constants.parallaxLength }
-        if city0?.offset.x ?? 0 <= -Constants.parallaxLength { city0?.offset.x = Constants.parallaxLength }
-        if city1?.offset.x ?? 0 <= -Constants.parallaxLength { city1?.offset.x = Constants.parallaxLength }
-        if Input.wasKeyPressed(.space) {
-            Game.isDebugMode.toggle()
-        }
+        let xTarget = Camera.target.x - Window.width / 2 - 50
+        background?.offset.x = xTarget
+        pyramid0?.offset.x = xTarget * pyramidScrollFactor
+        pyramid1?.offset.x = xTarget * pyramidScrollFactor + Constants.parallaxLength
+        city0?.offset.x = xTarget * cityScrollFactor
+        city1?.offset.x = xTarget * cityScrollFactor + Constants.parallaxLength
     }
 
     func behaviorWillTerminate() { }

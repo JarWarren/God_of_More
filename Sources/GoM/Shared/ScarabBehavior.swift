@@ -9,7 +9,7 @@ protocol ScarabDelegate: AnyObject {
     func scarabDied()
 }
 
-class ScarabBehavior: Behavior, PhysicsBodyDelegate {
+class ScarabBehavior: Behavior {
     static var destination: Position = .zero
     weak var entity: Entity?
     weak var sprite: Sprite?
@@ -22,13 +22,13 @@ class ScarabBehavior: Behavior, PhysicsBodyDelegate {
         self.isAlive = isAlive
     }
 
-    func windowDidResize(to size: Size) { }
-
     func behaviorWillStart() {
         body = getPhysicsBody()
         body?.delegate = self
         sprite = getSprite()
-        if !isAlive { die() }
+        if !isAlive {
+            die()
+        }
     }
 
     func update(_ deltaTime: TimeInterval) {
@@ -44,15 +44,17 @@ class ScarabBehavior: Behavior, PhysicsBodyDelegate {
         }
     }
 
-    func die() {
+    func behaviorWillTerminate() { }
+
+    private func die() {
         isAlive = false
         sprite?.tint = .gray
         sprite?.isFlippedVertically = true
         sprite?.animation = nil
     }
+}
 
-    func behaviorWillTerminate() { }
-
+extension ScarabBehavior: PhysicsBodyDelegate {
     func bodyDidEnter(_ body: PhysicsBody) {
         if body.categoryBitMask.contains(.two) {
             die()
