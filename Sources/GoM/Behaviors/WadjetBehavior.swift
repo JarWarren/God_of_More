@@ -16,6 +16,9 @@ class WadjetBehavior: Behavior {
 
     func update(_ deltaTime: TimeInterval) {
         entityPosition.y = initialY + sin(Date().timeIntervalSince(randomDate)) * 100
+        if entityPosition.x < Camera.target.x - 1000 {
+            removeEntityFromScene()
+        }
     }
 
     func behaviorWillTerminate() { }

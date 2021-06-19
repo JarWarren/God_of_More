@@ -13,7 +13,7 @@ class RocBehavior: Behavior {
 
     func update(_ deltaTime: TimeInterval) {
         entityPosition += direction
-        if entityPosition.x < -120 { removeEntityFromScene() }
+        if entityPosition.x < Camera.target.x - 1000 { removeEntityFromScene() }
     }
 
     func behaviorWillTerminate() { }

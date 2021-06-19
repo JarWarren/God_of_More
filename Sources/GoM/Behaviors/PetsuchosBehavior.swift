@@ -11,7 +11,7 @@ class PetsuchosBehavior: Behavior {
     func behaviorWillStart() { }
 
     func update(_ deltaTime: TimeInterval) {
-        if entityPosition.x < -330 { removeEntityFromScene() }
+        if entityPosition.x < Camera.target.x - 1000 { removeEntityFromScene() }
     }
 
     func behaviorWillTerminate() { }
