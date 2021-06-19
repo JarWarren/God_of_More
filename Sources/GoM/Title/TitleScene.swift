@@ -25,7 +25,7 @@ class TitleScene: Scene {
 
         // continuously spawn dead scarabs in the background
         if spawnCounter == 0 {
-            createEntity(at: Vector(x: Double.random(in: 0...Window.width * 2), y: -16)) {
+            createEntity(at: Vector(x: Double.random(in: 0...Window.width), y: -16)) {
                 Sprite(texture: .scarab0, width: 16, height: 16)
                 ScarabBehavior(isAlive: false)
             }

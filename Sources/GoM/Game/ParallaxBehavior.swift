@@ -21,14 +21,6 @@ class ParallaxBehavior: Behavior {
         city1 = getSprite(id: "city1")
     }
 
-    func windowDidResize(to size: Size) {
-        background?.width = Int32(size.x)
-        pyramid0?.height = Int32(size.y)
-        pyramid1?.height = Int32(size.y)
-        city0?.height = Int32(size.y)
-        city1?.height = Int32(size.y)
-    }
-
     func update(_ deltaTime: TimeInterval) {
         pyramid0?.offset.x -= 0.5
         pyramid1?.offset.x -= 0.5
@@ -43,6 +35,5 @@ class ParallaxBehavior: Behavior {
         }
     }
 
-    func behaviorWillTerminate() {
-    }
+    func behaviorWillTerminate() { }
 }

@@ -37,7 +37,6 @@ class ScarabBehavior: Behavior, PhysicsBodyDelegate {
             entityPosition += direction
             sprite?.isFlippedHorizontally = direction.x < 0
         } else {
-            entityPosition.x -= Constants.horizontalScrollSpeed
             entityPosition.y += 2
             if entityPosition.y > Window.height {
                 removeEntityFromScene()

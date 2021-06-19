@@ -8,7 +8,6 @@ import WarrenEngine
 enum Constants {
     static let parallaxLength = 2560.0
     static let animationSpeedFPS = 16
-    static let horizontalScrollSpeed = 2.0
 }
 
 extension Texture {
