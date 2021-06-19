@@ -16,6 +16,7 @@ class ParallaxBehavior: Behavior {
     private let pyramidScrollFactor = 0.8
     private let cityScrollFactor = 0.4
     private let foregroundScrollFactor = 1.2
+    private let parallaxLength = Window.width * 2
 
     func behaviorWillStart() {
         background = getSprite(id: "bg")
@@ -26,12 +27,24 @@ class ParallaxBehavior: Behavior {
     }
 
     func update(_ deltaTime: TimeInterval) {
+        guard let pyramid0 = pyramid0,
+              let pyramid1 = pyramid1,
+              let city0 = city0,
+              let city1 = city1 else { return }
         let xTarget = Camera.target.x - Window.width / 2 - 50
         background?.offset.x = xTarget
-        pyramid0?.offset.x = xTarget * pyramidScrollFactor
-        pyramid1?.offset.x = xTarget * pyramidScrollFactor + Constants.parallaxLength
-        city0?.offset.x = xTarget * cityScrollFactor
-        city1?.offset.x = xTarget * cityScrollFactor + Constants.parallaxLength
+        pyramid0.offset.x = xTarget * pyramidScrollFactor
+        pyramid1.offset.x = xTarget * pyramidScrollFactor + parallaxLength
+        city0.offset.x = xTarget * cityScrollFactor
+        city1.offset.x = xTarget * cityScrollFactor + parallaxLength
+        while pyramid0.offset.x < xTarget - parallaxLength {
+            pyramid0.offset.x += parallaxLength
+            pyramid1.offset.x += parallaxLength
+        }
+        while city0.offset.x < xTarget - parallaxLength {
+            city0.offset.x += parallaxLength
+            city1.offset.x += parallaxLength
+        }
     }
 
     func behaviorWillTerminate() { }

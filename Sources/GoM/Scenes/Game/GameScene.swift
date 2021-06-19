@@ -17,15 +17,15 @@ class GameScene: Scene {
         // background
         createEntity(at: .zero) {
             // background gradient
-            Sprite(id: "bg", texture: .background, width: Int32(Window.width) + 100)
+            Sprite(id: "bg", texture: Texture(fileName: "bg"), width: Int32(Window.width) + 100)
 
             // pyramid middleground
-            Sprite(id: "pyramid0", texture: .pyramid)
-            Sprite(id: "pyramid1", texture: .pyramid, offset: Vector(x: Constants.parallaxLength, y: 0))
+            Sprite(id: "pyramid0", texture: Texture(fileName: "mg0"))
+            Sprite(id: "pyramid1", texture: Texture(fileName: "mg0"), offset: Vector(x: Window.width * 2, y: 0))
 
             // city middleground
-            Sprite(id: "city0", texture: .city)
-            Sprite(id: "city1", texture: .city, offset: Vector(x: Constants.parallaxLength, y: 0))
+            Sprite(id: "city0", texture: Texture(fileName: "mg1"))
+            Sprite(id: "city1", texture: Texture(fileName: "mg1"), offset: Vector(x: Window.width * 2, y: 0))
 
             // parallax
             ParallaxBehavior()
@@ -64,11 +64,11 @@ class GameScene: Scene {
             Sprite(
                 animation: Animation(
                     textures: [
-                        Texture.scarab2,
-                        Texture.scarab1,
-                        Texture.scarab0
+                        Texture(fileName: "scarab2"),
+                        Texture(fileName: "scarab1"),
+                        Texture(fileName: "scarab0")
                     ],
-                    framesPerSecond: Constants.animationSpeedFPS
+                    framesPerSecond: 16
                 ),
                 width: 16,
                 height: 16
@@ -85,7 +85,7 @@ class GameScene: Scene {
 
     private func spawnWadjet() {
         createEntity(at: .zero) {
-            Sprite(texture: .wadjet, width: 58, height: 56)
+            Sprite(texture: Texture(fileName: "wadjet"), width: 58, height: 56)
             WadjetBehavior()
             PhysicsBody(
                 shape: .rectangle(size: Size(x: 58, y: 56)),
@@ -98,7 +98,7 @@ class GameScene: Scene {
 
     private func spawnPowerup() {
         createEntity(at: Position(x: Window.width, y: Double.random(in: 0...Window.height - 58))) {
-            Sprite(texture: .iconScarab, width: 38, height: 58)
+            Sprite(texture: Texture(fileName: "iconScarab"), width: 38, height: 58)
             PhysicsBody(
                 shape: .rectangle(size: Size(x: 38, y: 58)),
                 type: .static,
@@ -116,7 +116,7 @@ class GameScene: Scene {
                 y: Double.random(in: (Window.height * 0.3)...(Window.height * 0.7))
             )
         ) {
-            Sprite(texture: .roc, width: 100, height: 120)
+            Sprite(texture: Texture(fileName: "roc"), width: 100, height: 120)
             RocBehavior()
             PhysicsBody(
                 shape: .rectangle(size: Size(x: 100, y: 120)),
@@ -129,7 +129,7 @@ class GameScene: Scene {
 
     private func spawnPetsuchos() {
         createEntity(at: Position(x: Window.width, y: Window.height - 120)) {
-            Sprite(texture: .petsuchos)
+            Sprite(texture: Texture(fileName: "petsuchos"))
             PhysicsBody(
                 shape: .rectangle(size: Size(x: 320, y: 80)),
                 type: .static,
