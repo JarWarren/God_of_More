@@ -8,12 +8,14 @@ import WarrenEngine
 class GameScene: Scene {
     private var xTarget = Window.width / 2
     private var scarabCount = 0
+    private var rocCounter = 1000
+    private var transitionCounter = 240
 
     // MARK: - Setup
 
     override func sceneDidLoad() {
         super.sceneDidLoad()
-        canvas = HUD()
+      //  canvas = HUD()
 
         // background
         createEntity(at: .zero) {
@@ -44,7 +46,7 @@ class GameScene: Scene {
             )) {
                 Sprite(texture: .iconScarab, width: 38, height: 58)
                 PhysicsBody(
-                    shape: .rectangle(size: Size(x: 38, y: 58)),
+                    shape: .rectangle(size: Vector(x: 38, y: 58)),
                     type: .static,
                     collisionBitMask: .none,
                     detectionBitMask: .one
@@ -54,7 +56,7 @@ class GameScene: Scene {
         }
 
         // wadjets
-        for xPosition in stride(from: 1000.0, through: 10000, by: 500) {
+        for xPosition in stride(from: 2000.0, through: 10000, by: 500) {
             createEntity(at:
             Vector(
                 x: xPosition + Double.random(in: -100...100),
@@ -62,12 +64,26 @@ class GameScene: Scene {
             ) {
                 Sprite(texture: .wadjet, width: 100, height: 100)
                 PhysicsBody(
-                    shape: .rectangle(size: Size(x: 100, y: 100)),
+                    shape: .rectangle(size: Size(x: 50, y: 100)),
                     type: .static,
                     categoryBitMask: .two,
                     collisionBitMask: .none
                 )
                 WadjetBehavior()
+            }
+        }
+
+        // petsuchos
+        for xPosition in stride(from: 3000.0, through: 10000, by: 2000) {
+            createEntity(at: Vector(x: xPosition, y: Window.height - 120)) {
+                Sprite(texture: .petsuchos)
+                PhysicsBody(
+                    shape: .rectangle(size: Size(x: 320, y: 80)),
+                    type: .static,
+                    offset: Vector(x: 0, y: 40),
+                    categoryBitMask: .two,
+                    collisionBitMask: .none
+                )
             }
         }
     }
@@ -76,7 +92,19 @@ class GameScene: Scene {
 
     override func update(deltaTime: TimeInterval) {
         super.update(deltaTime: deltaTime)
-        Game.isDebugMode = Input.isKeyDown(.space)
+        if Input.wasKeyPressed(.space) { Game.isDebugMode.toggle() }
+        // check for victory
+        if xTarget > 11000 {
+            Game.transition(to: Victory())
+        }
+
+        // check for defeat
+        if scarabCount <= 0 {
+            transitionCounter -= 1
+            if transitionCounter <= 0 {
+                Game.transition(to: GameOver())
+            }
+        }
 
         // update camera position
         let mouse = Input.mousePosition
@@ -89,7 +117,15 @@ class GameScene: Scene {
             y: mouse.y
         )
 
+        // Spawn Roc
+        rocCounter -= 1
+        if rocCounter <= 0 {
+            spawnRoc()
+            rocCounter = Int.random(in: 800...1200)
+        }
     }
+
+    // MARK: - Private methods
 
     private func spawnScarab(_ position: Vector = .zero) {
         createEntity(at: position) {
@@ -109,43 +145,26 @@ class GameScene: Scene {
         scarabCount += 1
     }
 
-    private func spawnWadjet() {
-        createEntity(at: .zero) {
-
-        }
-    }
-
     private func spawnRoc() {
         createEntity(
-            at: Position(
-                x: Window.width,
+            at: Vector(
+                x: Window.width + xTarget,
                 y: Double.random(in: (Window.height * 0.3)...(Window.height * 0.7))
             )
         ) {
-            Sprite(texture: Texture(fileName: "roc"), width: 100, height: 120)
+            Sprite(texture: .roc, width: 100, height: 120)
+            PhysicsBody(
+                shape: .rectangle(size: Vector(x: 100, y: 120)),
+                type: .static,
+                categoryBitMask: .two,
+                collisionBitMask: .none
+            )
             RocBehavior()
-            PhysicsBody(
-                shape: .rectangle(size: Size(x: 100, y: 120)),
-                type: .static,
-                categoryBitMask: .two,
-                collisionBitMask: .none
-            )
-        }
-    }
-
-    private func spawnPetsuchos() {
-        createEntity(at: Position(x: Window.width, y: Window.height - 120)) {
-            Sprite(texture: Texture(fileName: "petsuchos"))
-            PhysicsBody(
-                shape: .rectangle(size: Size(x: 320, y: 80)),
-                type: .static,
-                offset: Vector(x: 0, y: 40),
-                categoryBitMask: .two,
-                collisionBitMask: .none
-            )
         }
     }
 }
+
+// MARK: - Delegate extensions
 
 extension GameScene: PowerupDelegate {
     func powerupCollected(at position: Vector) {
@@ -156,8 +175,5 @@ extension GameScene: PowerupDelegate {
 extension GameScene: ScarabDelegate {
     func scarabDied() {
         scarabCount -= 1
-        if scarabCount <= 0 {
-            Game.transition(to: GameOver())
-        }
     }
 }

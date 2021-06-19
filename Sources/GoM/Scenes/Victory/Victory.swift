@@ -5,11 +5,11 @@
 import Foundation
 import WarrenEngine
 
-class GameOver: Scene {
+class Victory: Scene {
     override func sceneDidLoad() {
         super.sceneDidLoad()
         createEntity(at: Window.center) {
-            GameText(text: "RIP", color: .pink, fontSize: 72)
+            GameText(text: "Victory", color: .green, fontSize: 72)
         }
     }
 }
