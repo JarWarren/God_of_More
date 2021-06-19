@@ -5,27 +5,30 @@
 import Foundation
 import WarrenEngine
 
+protocol ScarabDelegate: AnyObject {
+    func scarabDied()
+}
+
 class ScarabBehavior: Behavior, PhysicsBodyDelegate {
     static var destination: Position = .zero
     weak var entity: Entity?
     weak var sprite: Sprite?
     weak var body: PhysicsBody?
-    private var isAlive = true
+    weak var delegate: ScarabDelegate?
+    private var isAlive: Bool
+
+    init(delegate: ScarabDelegate? = nil, isAlive: Bool = true) {
+        self.delegate = delegate
+        self.isAlive = isAlive
+    }
+
+    func windowDidResize(to size: Size) { }
 
     func behaviorWillStart() {
         body = getPhysicsBody()
         body?.delegate = self
         sprite = getSprite()
-        sprite?.animation = Animation(
-            textures: [
-                Texture.scarab2,
-                Texture.scarab1,
-                Texture.scarab0,
-            ],
-            framesPerSecond: Constants.animationSpeedFPS
-        )
-        sprite?.width = 16
-        sprite?.height = 16
+        if !isAlive { die() }
     }
 
     func update(_ deltaTime: TimeInterval) {
@@ -35,7 +38,7 @@ class ScarabBehavior: Behavior, PhysicsBodyDelegate {
             sprite?.isFlippedHorizontally = direction.x < 0
         } else {
             entityPosition.x -= Constants.horizontalScrollSpeed
-            entityPosition.y += 3
+            entityPosition.y += 2
             if entityPosition.y > Window.height {
                 removeEntityFromScene()
             }
@@ -52,7 +55,10 @@ class ScarabBehavior: Behavior, PhysicsBodyDelegate {
     func behaviorWillTerminate() { }
 
     func bodyDidEnter(_ body: PhysicsBody) {
-        if body.categoryBitMask.contains(.two) { die() }
+        if body.categoryBitMask.contains(.two) {
+            die()
+            delegate?.scarabDied()
+        }
     }
 
     func bodyDidExit(_ body: PhysicsBody) { }
