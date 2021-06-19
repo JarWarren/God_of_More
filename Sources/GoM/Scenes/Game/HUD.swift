@@ -5,12 +5,31 @@
 import Foundation
 import WarrenEngine
 
+protocol HUDDataSource: AnyObject {
+    var scarabCount: Int { get }
+    var distanceRemaining: Double { get }
+}
+
 struct HUD: Canvas {
+    weak var dataSource: HUDDataSource?
+
+    init(dataSource: HUDDataSource) {
+        self.dataSource = dataSource
+    }
+
     var body: Canvas {
-        HStack(alignment: .trailing) {
-            Image("iconAnkh")
-            Image("iconHorus")
-            Image("iconScarab")
+        VStack {
+            HStack(alignment: .trailing) {
+                Text("\(dataSource?.scarabCount ?? 0)")
+                    .frame(width: 50, height: 50)
+                Image("iconScarab")
+            }
+            HStack(alignment: .trailing) {
+                Text("\(dataSource?.distanceRemaining ?? 11000)")
+                Image("iconHorus")
+                    .frame(width: 50, height: 50)
+            }
         }
+            .padding()
     }
 }

@@ -5,17 +5,18 @@
 import Foundation
 import WarrenEngine
 
-class GameScene: Scene {
+class GameScene: Scene, HUDDataSource {
     private var xTarget = Window.width / 2
-    private var scarabCount = 0
     private var rocCounter = 1000
     private var transitionCounter = 240
+    var scarabCount = 0
+    var distanceRemaining: Double { 11000 - xTarget }
 
     // MARK: - Setup
 
     override func sceneDidLoad() {
         super.sceneDidLoad()
-      //  canvas = HUD()
+        canvas = HUD(dataSource: self)
 
         // background
         createEntity(at: .zero) {
@@ -94,8 +95,12 @@ class GameScene: Scene {
         super.update(deltaTime: deltaTime)
         if Input.wasKeyPressed(.space) { Game.isDebugMode.toggle() }
         // check for victory
-        if xTarget > 11000 {
-            Game.transition(to: Victory())
+        if distanceRemaining <= 0 {
+            transitionCounter += 1
+            if transitionCounter >= 480 {
+                canvas = EmptyCanvas()
+                Game.transition(to: Victory())
+            }
         }
 
         // check for defeat
@@ -164,7 +169,7 @@ class GameScene: Scene {
     }
 }
 
-// MARK: - Delegate extensions
+// MARK: - Protocol Conformance Extensions
 
 extension GameScene: PowerupDelegate {
     func powerupCollected(at position: Vector) {
