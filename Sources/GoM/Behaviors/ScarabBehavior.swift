@@ -33,7 +33,7 @@ class ScarabBehavior: Behavior {
 
     func update(_ deltaTime: TimeInterval) {
         if isAlive {
-            let direction = (ScarabBehavior.destination - entityPosition).normal * 2
+            let direction = (ScarabBehavior.destination - entityPosition).normal * 3
             entityPosition += direction
             sprite?.isFlippedHorizontally = direction.x < 0
         } else {
@@ -41,6 +41,10 @@ class ScarabBehavior: Behavior {
             if entityPosition.y > Window.height {
                 removeEntityFromScene()
             }
+        }
+
+        if Input.wasKeyPressed(.k) {
+            die()
         }
     }
 
@@ -51,6 +55,7 @@ class ScarabBehavior: Behavior {
         sprite?.tint = .gray
         sprite?.isFlippedVertically = true
         sprite?.animation = nil
+        delegate?.scarabDied()
     }
 }
 

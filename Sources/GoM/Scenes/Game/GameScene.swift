@@ -7,6 +7,7 @@ import WarrenEngine
 
 class GameScene: Scene {
     private var xTarget = Window.width / 2
+    private var scarabCount = 1
 
     // MARK: - Setup
 
@@ -17,22 +18,40 @@ class GameScene: Scene {
         // background
         createEntity(at: .zero) {
             // background gradient
-            Sprite(id: "bg", texture: Texture(fileName: "bg"), width: Int32(Window.width) + 100)
+            Sprite(id: "bg", texture: .background, width: Int32(Window.width) + 100)
 
             // pyramid middleground
-            Sprite(id: "pyramid0", texture: Texture(fileName: "mg0"))
-            Sprite(id: "pyramid1", texture: Texture(fileName: "mg0"), offset: Vector(x: Window.width * 2, y: 0))
+            Sprite(id: "pyramid0", texture: .pyramid)
+            Sprite(id: "pyramid1", texture: .pyramid, offset: Vector(x: Window.width * 2, y: 0))
 
             // city middleground
-            Sprite(id: "city0", texture: Texture(fileName: "mg1"))
-            Sprite(id: "city1", texture: Texture(fileName: "mg1"), offset: Vector(x: Window.width * 2, y: 0))
+            Sprite(id: "city0", texture: .city)
+            Sprite(id: "city1", texture: .city, offset: Vector(x: Window.width * 2, y: 0))
 
             // parallax
             ParallaxBehavior()
         }
 
         // starter scarab
-        spawnScarab()
+        spawnScarab(Camera.target)
+
+        // powerups
+        for xPosition in stride(from: 1000.0, through: 5000, by: 240) {
+            createEntity(at:
+            Vector(
+                x: xPosition,
+                y: Double.random(in: 0...Window.height - 60)
+            )) {
+                Sprite(texture: .iconScarab, width: 38, height: 58)
+                PhysicsBody(
+                    shape: .rectangle(size: Size(x: 38, y: 58)),
+                    type: .static,
+                    collisionBitMask: .none,
+                    detectionBitMask: .one
+                )
+                PowerupBehavior(delegate: self)
+            }
+        }
     }
 
     // MARK: - Update
@@ -43,9 +62,7 @@ class GameScene: Scene {
 
         // update camera position
         let xPosition = Input.mousePosition.x
-        if xPosition < 280 {
-            xTarget -= 2
-        } else if xPosition > 1000 {
+        if xPosition > 1000 {
             xTarget += 2
         }
 
@@ -59,14 +76,14 @@ class GameScene: Scene {
 
     }
 
-    private func spawnScarab() {
-        createEntity(at: Position(x: -16, y: Window.height / 2)) {
+    private func spawnScarab(_ position: Vector = .zero) {
+        createEntity(at: position) {
             Sprite(
                 animation: Animation(
                     textures: [
-                        Texture(fileName: "scarab2"),
-                        Texture(fileName: "scarab1"),
-                        Texture(fileName: "scarab0")
+                        .scarab2,
+                        .scarab1,
+                        .scarab0
                     ],
                     framesPerSecond: 16
                 ),
@@ -85,7 +102,7 @@ class GameScene: Scene {
 
     private func spawnWadjet() {
         createEntity(at: .zero) {
-            Sprite(texture: Texture(fileName: "wadjet"), width: 58, height: 56)
+            Sprite(texture: .wadjet, width: 58, height: 56)
             WadjetBehavior()
             PhysicsBody(
                 shape: .rectangle(size: Size(x: 58, y: 56)),
@@ -93,19 +110,6 @@ class GameScene: Scene {
                 categoryBitMask: .two,
                 collisionBitMask: .none
             )
-        }
-    }
-
-    private func spawnPowerup() {
-        createEntity(at: Position(x: Window.width, y: Double.random(in: 0...Window.height - 58))) {
-            Sprite(texture: Texture(fileName: "iconScarab"), width: 38, height: 58)
-            PhysicsBody(
-                shape: .rectangle(size: Size(x: 38, y: 58)),
-                type: .static,
-                collisionBitMask: .none,
-                detectionBitMask: .one
-            )
-            PowerupBehavior(delegate: self)
         }
     }
 
@@ -142,12 +146,17 @@ class GameScene: Scene {
 }
 
 extension GameScene: PowerupDelegate {
-    func powerupCollected() {
-        spawnScarab()
+    func powerupCollected(at position: Vector) {
+        spawnScarab(position)
+        scarabCount += 1
     }
 }
 
 extension GameScene: ScarabDelegate {
     func scarabDied() {
+        scarabCount -= 1
+        if scarabCount <= 0 {
+            Game.transition(to: GameOver())
+        }
     }
 }
