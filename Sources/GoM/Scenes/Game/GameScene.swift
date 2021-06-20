@@ -65,7 +65,7 @@ class GameScene: Scene, HUDDataSource {
             ) {
                 Sprite(texture: .wadjet, width: 100, height: 100)
                 PhysicsBody(
-                    shape: .rectangle(size: Size(x: 40, y: 80)),
+                    shape: .rectangle(size: Vector(x: 40, y: 80)),
                     type: .static,
                     categoryBitMask: .two,
                     collisionBitMask: .none
@@ -133,7 +133,7 @@ class GameScene: Scene, HUDDataSource {
         // update camera position
         let mouse = Input.mousePosition
         let halfScreen = Window.width / 2
-        if mouse.x > halfScreen{ xTarget += 2 }
+        if mouse.x > halfScreen { xTarget += 2 }
         Camera.target.x = xTarget
 
         // Tell Scarabs where to fly
@@ -163,7 +163,7 @@ class GameScene: Scene, HUDDataSource {
             PhysicsBody(
                 shape: .circle(radius: 16),
                 type: .dynamic,
-                offset: Position(x: 8, y: 8),
+                offset: Vector(x: 8, y: 8),
                 detectionBitMask: .two
             )
             ScarabBehavior(delegate: self)

@@ -7,7 +7,7 @@ class GameDelegate: GameLauncher, VideoGameDelegate {
         LaunchSettings(
             title: "God of More",
             backgroundColor: .black,
-            initialWindowSize: Size(x: 1280, y: 720),
+            initialWindowSize: Vector(x: 1280, y: 720),
             startingScene: TitleScene()
         )
     }

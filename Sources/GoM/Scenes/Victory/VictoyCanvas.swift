@@ -21,7 +21,7 @@ struct VictoryCanvas: Canvas {
                 HStack(spacing: 8) {
                     Text("\(scarabCount)", fontSize: 24)
                         .foregroundColor(.dynamicScoreColor(scarabCount))
-                    Text("scarabs collected", fontSize: 24)
+                    Text("scarabs awakened", fontSize: 24)
                 }
                     .padding()
                 Text("Click to play again", fontSize: 24)
