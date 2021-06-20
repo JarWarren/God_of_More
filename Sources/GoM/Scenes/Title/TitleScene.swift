@@ -19,6 +19,11 @@ class TitleScene: Scene {
         }
     }
 
+    override func sceneDidAppear() {
+        super.sceneDidAppear()
+        Audio.playMenuMusic()
+    }
+
     override func update(deltaTime: TimeInterval) {
         super.update(deltaTime: deltaTime)
 

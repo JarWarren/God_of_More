@@ -8,9 +8,12 @@ import WarrenEngine
 class GameScene: Scene, HUDDataSource {
     private var xTarget = Window.width / 2
     private var rocCounter = 1000
-    private var transitionCounter = 240
+    private var transitionCounter = 300
     private var isVictorious = false
     var scarabCount = 0
+    var distanceRemaining: Int {
+        max(Int(10700 - xTarget), 0)
+    }
 
     // MARK: - Method Overrides
 
@@ -116,6 +119,11 @@ class GameScene: Scene, HUDDataSource {
         }
     }
 
+    override func sceneDidAppear() {
+        super.sceneDidAppear()
+        Audio.playGameplayMusic()
+    }
+
     override func update(deltaTime: TimeInterval) {
         super.update(deltaTime: deltaTime)
         if Input.wasKeyPressed(.space) {
@@ -124,7 +132,7 @@ class GameScene: Scene, HUDDataSource {
         // check for victory
         if isVictorious {
             transitionCounter += 1
-            if transitionCounter >= 600 {
+            if transitionCounter >= 720 {
                 canvas = EmptyCanvas()
                 Game.transition(to: Victory(scarabCount))
             }
@@ -141,7 +149,7 @@ class GameScene: Scene, HUDDataSource {
         // update camera position
         guard scarabCount > 0,
               !isVictorious else {
-            return
+            return Camera.target.x += 1
         }
         let mouse = Input.mousePosition
         let halfScreen = Window.width / 2
@@ -153,7 +161,7 @@ class GameScene: Scene, HUDDataSource {
         // Tell Scarabs where to fly
         ScarabBehavior.destination = Vector(
             x: xTarget + mouse.x - halfScreen,
-            y: mouse.y
+            y: max(0, min(mouse.y, Window.height))
         )
 
         // Spawn Roc
@@ -193,7 +201,7 @@ class GameScene: Scene, HUDDataSource {
     private func spawnRoc() {
         createEntity(
             at: Vector(
-                x: Window.width + xTarget,
+                x: Window.width / 2 + xTarget,
                 y: Double.random(in: (Window.height * 0.3)...(Window.height * 0.5))
             )
         ) {

@@ -17,6 +17,11 @@ class Victory: Scene {
         canvas = VictoryCanvas(scarabCount: scarabCount)
     }
 
+    override func sceneDidAppear() {
+        super.sceneDidAppear()
+        Audio.playMenuMusic()
+    }
+
     override func update(deltaTime: TimeInterval) {
         super.update(deltaTime: deltaTime)
         if Input.wasMouseButtonPressed(.left) ||

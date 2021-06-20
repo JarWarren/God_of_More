@@ -9,7 +9,9 @@ class RocBehavior: Behavior {
     weak var entity: Entity?
     internal let direction = Vector(x: -4, y: Double.random(in: -2...2))
 
-    func behaviorWillStart() { }
+    func behaviorWillStart() {
+        Audio.playScreechSound()
+    }
 
     func update(_ deltaTime: TimeInterval) {
         entityPosition += direction

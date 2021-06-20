@@ -26,6 +26,10 @@ class PetsuchosBehavior: Behavior {
         } else if cooldown <= 60 {
             laserBody?.isEnabled = true
             laser?.color = .red
+            if cooldown == 60,
+               abs(entityPosition.x + 160 - Camera.target.x) < Window.width / 2 {
+                Audio.playLaserSound()
+            }
         } else if cooldown <= 120 {
             laser?.color = Color(red: 255, green: 255, blue: 255, alpha: 255 % Int32(((cooldown - 60) / 60) * 255))
         } else {
