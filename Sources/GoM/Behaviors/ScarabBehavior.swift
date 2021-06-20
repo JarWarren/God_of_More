@@ -48,6 +48,7 @@ class ScarabBehavior: Behavior {
         sprite?.tint = .gray
         sprite?.isFlippedVertically = true
         sprite?.animation = nil
+        body?.isEnabled = false
         delegate?.scarabDied()
     }
 }

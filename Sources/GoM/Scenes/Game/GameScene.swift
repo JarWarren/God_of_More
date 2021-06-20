@@ -9,10 +9,10 @@ class GameScene: Scene, HUDDataSource {
     private var xTarget = Window.width / 2
     private var rocCounter = 1000
     private var transitionCounter = 240
+    private var isVictorious = false
     var scarabCount = 0
-    var distanceRemaining: Int { max(11000 - Int(xTarget), 0) }
 
-    // MARK: - Setup
+    // MARK: - Method Overrides
 
     override func sceneDidLoad() {
         super.sceneDidLoad()
@@ -36,7 +36,7 @@ class GameScene: Scene, HUDDataSource {
         }
 
         // starter scarab
-        spawnScarab(Camera.target)
+        spawnScarab(Window.center)
 
         // powerups
         for xPosition in stride(from: 1000.0, through: 11000, by: 200) {
@@ -103,18 +103,26 @@ class GameScene: Scene, HUDDataSource {
         }
 
         // horus
-        createEntity(at: Vector(x: 11500, y: Window.height * 0.3)) {
+        createEntity(at: Vector(x: 11250, y: Window.height * 0.3)) {
             Sprite(texture: .horus, width: 200, height: 150)
+            PhysicsBody(
+                shape: .rectangle(size: Vector(x: 200, y: 150)),
+                type: .static,
+                categoryBitMask: .three,
+                collisionBitMask: .none,
+                detectionBitMask: .one
+            )
+            HorusBehavior(self)
         }
     }
 
-    // MARK: - Update
-
     override func update(deltaTime: TimeInterval) {
         super.update(deltaTime: deltaTime)
-        if Input.wasKeyPressed(.space) { Game.isDebugMode.toggle() }
+        if Input.wasKeyPressed(.space) {
+            Game.isDebugMode.toggle()
+        }
         // check for victory
-        if distanceRemaining <= 0 {
+        if isVictorious {
             transitionCounter += 1
             if transitionCounter >= 600 {
                 canvas = EmptyCanvas()
@@ -131,9 +139,15 @@ class GameScene: Scene, HUDDataSource {
         }
 
         // update camera position
+        guard scarabCount > 0,
+              !isVictorious else {
+            return
+        }
         let mouse = Input.mousePosition
         let halfScreen = Window.width / 2
-        if mouse.x > halfScreen { xTarget += 2 }
+        if mouse.x > halfScreen {
+            xTarget += 2
+        }
         Camera.target.x = xTarget
 
         // Tell Scarabs where to fly
@@ -144,11 +158,16 @@ class GameScene: Scene, HUDDataSource {
 
         // Spawn Roc
         rocCounter -= 1
-        if rocCounter <= 0,
-           distanceRemaining > 0 {
+        if rocCounter <= 0 {
             spawnRoc()
             rocCounter = Int.random(in: 800...1200)
         }
+    }
+
+    override func sceneWillTerminate() {
+        super.sceneWillTerminate()
+        // reset camera to initial state
+        Camera.target = Window.center
     }
 
     // MARK: - Private methods
@@ -201,5 +220,11 @@ extension GameScene: PowerupDelegate {
 extension GameScene: ScarabDelegate {
     func scarabDied() {
         scarabCount -= 1
+    }
+}
+
+extension GameScene: HorusDelegate {
+    func horusWasReached() {
+        isVictorious = true
     }
 }

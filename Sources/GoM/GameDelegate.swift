@@ -14,6 +14,7 @@ class GameDelegate: GameLauncher, VideoGameDelegate {
 
     func gameWillFinishLaunching() {
         print("[Will Finish Launching]")
+        print(Camera.target, "intial camera target")
     }
 
     func gameWillTerminate() {
