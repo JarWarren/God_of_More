@@ -87,6 +87,11 @@ class GameScene: Scene, HUDDataSource {
                 )
             }
         }
+
+        // horus
+        createEntity(at: Vector(x: 11000, y: Window.height * 0.3)) {
+            Sprite(texture: .horus, width: 200, height: 150)
+        }
     }
 
     // MARK: - Update
@@ -97,7 +102,7 @@ class GameScene: Scene, HUDDataSource {
         // check for victory
         if distanceRemaining <= 0 {
             transitionCounter += 1
-            if transitionCounter >= 480 {
+            if transitionCounter >= 600 {
                 canvas = EmptyCanvas()
                 Game.transition(to: Victory())
             }
