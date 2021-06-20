@@ -6,7 +6,7 @@ let package = Package(
     name: "GoM",
     platforms: [.macOS(.v11)],
     dependencies: [
-        .package(url: "https://github.com/JarWarren/WarrenEngine", .branch("testless"))
+        .package(url: "https://github.com/JarWarren/WarrenEngine", .branch("master"))
     ],
     targets: [
         .executableTarget(

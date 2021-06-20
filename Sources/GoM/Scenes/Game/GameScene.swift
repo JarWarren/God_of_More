@@ -166,7 +166,8 @@ class GameScene: Scene, HUDDataSource {
 
         // Spawn Roc
         rocCounter -= 1
-        if rocCounter <= 0 {
+        if rocCounter <= 0,
+           distanceRemaining > 0 {
             spawnRoc()
             rocCounter = Int.random(in: 800...1200)
         }

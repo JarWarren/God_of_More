@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "WarrenEngine",
+        "repositoryURL": "https://github.com/JarWarren/WarrenEngine",
+        "state": {
+          "branch": "master",
+          "revision": "37a6f03db50e5334827e4aa5709239fe812edef8",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
