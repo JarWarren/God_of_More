@@ -25,6 +25,7 @@ class ScarabBehavior: Behavior {
         body = getPhysicsBody()
         body?.delegate = self
         sprite = getSprite()
+        Audio.playAwakenSound()
     }
 
     func update(_ deltaTime: TimeInterval) {
