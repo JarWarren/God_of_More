@@ -77,14 +77,28 @@ class GameScene: Scene, HUDDataSource {
         // petsuchos
         for xPosition in stride(from: 3000.0, through: 10000, by: 2000) {
             createEntity(at: Vector(x: xPosition, y: Window.height - 120)) {
+                PhysicsBody(
+                    id: "laser",
+                    shape: .rectangle(size: Vector(x: 20, y: Window.height)),
+                    type: .static,
+                    offset: Vector(x: 165, y: -Window.height + 120),
+                    categoryBitMask: .two,
+                    collisionBitMask: .none
+                )
+                Shape(
+                    shape: .rectangle(size: Vector(x: 20, y: Window.height)),
+                    color: .red,
+                    offset: Vector(x: 165, y: -Window.height + 120)
+                )
                 Sprite(texture: .petsuchos)
                 PhysicsBody(
-                    shape: .rectangle(size: Size(x: 320, y: 60)),
+                    shape: .rectangle(size: Vector(x: 320, y: 60)),
                     type: .static,
                     offset: Vector(x: 0, y: 60),
                     categoryBitMask: .two,
                     collisionBitMask: .none
                 )
+                PetsuchosBehavior()
             }
         }
 
@@ -112,24 +126,26 @@ class GameScene: Scene, HUDDataSource {
         if scarabCount <= 0 {
             transitionCounter -= 1
             if transitionCounter <= 0 {
-                Game.transition(to: GameOver())
+                Game.transition(to: Defeat())
             }
         }
 
         // update camera position
         let mouse = Input.mousePosition
-        if mouse.x > 1000 { xTarget += 2 }
+        let halfScreen = Window.width / 2
+        if mouse.x > halfScreen{ xTarget += 2 }
         Camera.target.x = xTarget
 
         // Tell Scarabs where to fly
         ScarabBehavior.destination = Vector(
-            x: xTarget + mouse.x - Window.width / 2,
+            x: xTarget + mouse.x - halfScreen,
             y: mouse.y
         )
 
         // Spawn Roc
         rocCounter -= 1
-        if rocCounter <= 0 {
+        if rocCounter <= 0,
+           distanceRemaining > 0 {
             spawnRoc()
             rocCounter = Int.random(in: 800...1200)
         }
@@ -159,7 +175,7 @@ class GameScene: Scene, HUDDataSource {
         createEntity(
             at: Vector(
                 x: Window.width + xTarget,
-                y: Double.random(in: (Window.height * 0.3)...(Window.height * 0.7))
+                y: Double.random(in: (Window.height * 0.3)...(Window.height * 0.5))
             )
         ) {
             Sprite(texture: .roc, width: 100, height: 120)
