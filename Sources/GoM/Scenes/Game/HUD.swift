@@ -12,15 +12,6 @@ protocol HUDDataSource: AnyObject {
 
 struct HUD: Canvas {
     weak var dataSource: HUDDataSource?
-    private var scarabColor: Color {
-        let count = dataSource?.scarabCount ?? 0
-        return count > 49 ? .rayWhite :
-            count > 39 ? .gold :
-            count > 29 ? .green :
-            count > 19 ? .skyBlue :
-            count > 9 ? .lightGray :
-            count > 1 ? .pink : .red
-    }
 
     init(dataSource: HUDDataSource) {
         self.dataSource = dataSource
@@ -28,19 +19,19 @@ struct HUD: Canvas {
 
     var body: Canvas {
         VStack {
-            HStack(alignment: .trailing) {
+            HStack(alignment: .trailing, spacing: 8) {
                 Text("\(dataSource?.scarabCount ?? 0)", fontSize: 24)
-                    .foregroundColor(scarabColor)
+                    .foregroundColor(
+                        .dynamicScoreColor(dataSource?.scarabCount ?? 0)
+                    )
                 Image("iconScarab")
-                    .frame(width: 50, height: 50)
-                    .padding()
+                    .frame(width: 24, height: 24)
             }
-            HStack(alignment: .trailing) {
+            HStack(alignment: .trailing, spacing: 8) {
                 Text("\(dataSource?.distanceRemaining ?? 11000)", fontSize: 24)
                     .foregroundColor(.gold)
                 Image("iconHorus")
-                    .frame(width: 50, height: 50)
-                    .padding()
+                    .frame(width: 24, height: 24)
             }
         }
             .padding()

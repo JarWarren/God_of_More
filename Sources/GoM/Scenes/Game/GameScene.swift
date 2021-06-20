@@ -104,7 +104,7 @@ class GameScene: Scene, HUDDataSource {
             transitionCounter += 1
             if transitionCounter >= 600 {
                 canvas = EmptyCanvas()
-                Game.transition(to: Victory())
+                Game.transition(to: Victory(scarabCount))
             }
         }
 
