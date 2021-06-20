@@ -43,12 +43,12 @@ class ScarabBehavior: Behavior {
     func behaviorWillTerminate() { }
 
     private func die() {
-        guard isAlive else { return }
-        isAlive = false
-        sprite?.tint = .gray
-        sprite?.isFlippedVertically = true
-        sprite?.animation = nil
-        delegate?.scarabDied()
+//        guard isAlive else { return }
+//        isAlive = false
+//        sprite?.tint = .gray
+//        sprite?.isFlippedVertically = true
+//        sprite?.animation = nil
+//        delegate?.scarabDied()
     }
 }
 

@@ -39,7 +39,7 @@ class GameScene: Scene, HUDDataSource {
         spawnScarab(Camera.target)
 
         // powerups
-        for xPosition in stride(from: 1000.0, through: 10000, by: 250) {
+        for xPosition in stride(from: 1000.0, through: 11000, by: 200) {
             createEntity(at:
             Vector(
                 x: xPosition,
