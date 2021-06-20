@@ -7,10 +7,8 @@ import WarrenEngine
 
 struct DefeatCanvas: Canvas {
     var body: Canvas {
-        HStack {
-            Spacer()
-            VStack(spacing: 24) {
-                Spacer()
+        HStack(alignment: .center) {
+            VStack(alignment: .center, spacing: 24) {
                 Text("Game Over", fontSize: 72)
                     .foregroundColor(.darkPurple)
                     .padding()
@@ -18,9 +16,7 @@ struct DefeatCanvas: Canvas {
                     .padding()
                     .backgroundColor(.darkPurple)
                 Text("Click to play again", fontSize: 24)
-                Spacer()
             }
-            Spacer()
         }
             .foregroundColor(.pink)
     }

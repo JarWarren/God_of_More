@@ -11,6 +11,9 @@ class GameScene: Scene, HUDDataSource {
     private var transitionCounter = 240
     private var isVictorious = false
     var scarabCount = 0
+    var distanceRemaining: Int {
+        max(Int(10700 - xTarget), 0)
+    }
 
     // MARK: - Method Overrides
 
@@ -153,12 +156,13 @@ class GameScene: Scene, HUDDataSource {
         // Tell Scarabs where to fly
         ScarabBehavior.destination = Vector(
             x: xTarget + mouse.x - halfScreen,
-            y: mouse.y
+            y: max(0, min(mouse.y, Window.height))
         )
 
         // Spawn Roc
         rocCounter -= 1
-        if rocCounter <= 0 {
+        if rocCounter <= 0,
+           distanceRemaining > 0 {
             spawnRoc()
             rocCounter = Int.random(in: 800...1200)
         }

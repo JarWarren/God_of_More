@@ -13,11 +13,10 @@ class GameDelegate: GameLauncher, VideoGameDelegate {
     }
 
     func gameWillFinishLaunching() {
-        print("[Will Finish Launching]")
-        print(Camera.target, "intial camera target")
+        print("Hello, World!")
     }
 
     func gameWillTerminate() {
-        print("[Will Terminate]")
+        print("Goodbye!")
     }
 }
