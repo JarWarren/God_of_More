@@ -12,7 +12,7 @@ class GameDelegate: GameLauncher, VideoGameDelegate {
         )
     }
 
-    func gameWillFinishLaunching() {
+    func gameWillFinishLaunching() { 
         print("Hello, World!")
     }
 

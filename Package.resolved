@@ -5,8 +5,8 @@
         "package": "WarrenEngine",
         "repositoryURL": "https://github.com/JarWarren/WarrenEngine",
         "state": {
-          "branch": "testless",
-          "revision": "21b712ce4815226ba194eb428da404c413973696",
+          "branch": "master",
+          "revision": "08087efbb278f17b48d5a8837d69bc788ba822cf",
           "version": null
         }
       }
