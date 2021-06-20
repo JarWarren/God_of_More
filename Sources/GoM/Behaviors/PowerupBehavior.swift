@@ -6,7 +6,7 @@ import Foundation
 import WarrenEngine
 
 protocol PowerupDelegate: AnyObject {
-    func powerupCollected()
+    func powerupCollected(at position: Vector)
 }
 
 class PowerupBehavior: Behavior, PhysicsBodyDelegate {
@@ -26,14 +26,14 @@ class PowerupBehavior: Behavior, PhysicsBodyDelegate {
     }
 
     func update(_ deltaTime: TimeInterval) {
-        if entityPosition.x < -32 { removeEntityFromScene() }
+        if entityPosition.x < Camera.target.x - 1000 { removeEntityFromScene() }
     }
 
     func behaviorWillTerminate() { }
 
     func bodyDidEnter(_ body: PhysicsBody) {
         // notify delegate
-        delegate?.powerupCollected()
+        delegate?.powerupCollected(at: entityPosition)
         //  cleanup self
         removeEntityFromScene()
     }

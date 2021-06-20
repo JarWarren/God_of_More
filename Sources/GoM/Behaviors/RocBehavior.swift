@@ -5,13 +5,15 @@
 import Foundation
 import WarrenEngine
 
-class PetsuchosBehavior: Behavior {
+class RocBehavior: Behavior {
     weak var entity: Entity?
+    internal let direction = Vector(x: -4, y: Double.random(in: -2...2))
 
     func behaviorWillStart() { }
 
     func update(_ deltaTime: TimeInterval) {
-        if entityPosition.x < -330 { removeEntityFromScene() }
+        entityPosition += direction
+        if entityPosition.x < Camera.target.x - 1000 { removeEntityFromScene() }
     }
 
     func behaviorWillTerminate() { }

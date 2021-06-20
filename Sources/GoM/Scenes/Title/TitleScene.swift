@@ -21,18 +21,6 @@ class TitleScene: Scene {
 
     override func update(deltaTime: TimeInterval) {
         super.update(deltaTime: deltaTime)
-        Game.isDebugMode = Input.isKeyDown(.space)
-
-        // continuously spawn dead scarabs in the background
-        if spawnCounter == 0 {
-            createEntity(at: Vector(x: Double.random(in: 0...Window.width * 2), y: -16)) {
-                Sprite(texture: .scarab0, width: 16, height: 16)
-                ScarabBehavior(isAlive: false)
-            }
-            spawnCounter = 24
-        } else {
-            spawnCounter -= 1
-        }
 
         // On click, begin game
         if Input.wasMouseButtonPressed(.left) ||
