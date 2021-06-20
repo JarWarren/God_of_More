@@ -10,7 +10,7 @@ protocol ScarabDelegate: AnyObject {
 }
 
 class ScarabBehavior: Behavior {
-    static var destination: Position = .zero
+    static var destination: Vector = .zero
     weak var entity: Entity?
     weak var sprite: Sprite?
     weak var body: PhysicsBody?
@@ -48,6 +48,7 @@ class ScarabBehavior: Behavior {
         sprite?.tint = .gray
         sprite?.isFlippedVertically = true
         sprite?.animation = nil
+        body?.isEnabled = false
         delegate?.scarabDied()
     }
 }
