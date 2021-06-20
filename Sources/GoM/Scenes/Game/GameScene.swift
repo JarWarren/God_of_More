@@ -10,7 +10,7 @@ class GameScene: Scene, HUDDataSource {
     private var rocCounter = 1000
     private var transitionCounter = 240
     var scarabCount = 0
-    var distanceRemaining: Double { 11000 - xTarget }
+    var distanceRemaining: Int { max(11000 - Int(xTarget), 0) }
 
     // MARK: - Setup
 
@@ -89,7 +89,7 @@ class GameScene: Scene, HUDDataSource {
         }
 
         // horus
-        createEntity(at: Vector(x: 11000, y: Window.height * 0.3)) {
+        createEntity(at: Vector(x: 11500, y: Window.height * 0.3)) {
             Sprite(texture: .horus, width: 200, height: 150)
         }
     }

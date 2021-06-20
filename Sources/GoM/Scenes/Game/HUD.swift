@@ -7,7 +7,7 @@ import WarrenEngine
 
 protocol HUDDataSource: AnyObject {
     var scarabCount: Int { get }
-    var distanceRemaining: Double { get }
+    var distanceRemaining: Int { get }
 }
 
 struct HUD: Canvas {
@@ -21,15 +21,20 @@ struct HUD: Canvas {
         VStack {
             HStack(alignment: .trailing) {
                 Text("\(dataSource?.scarabCount ?? 0)")
-                    .frame(width: 50, height: 50)
                 Image("iconScarab")
+                    .frame(width: 50)
+                    .padding()
             }
+                .frame(height: 50)
             HStack(alignment: .trailing) {
                 Text("\(dataSource?.distanceRemaining ?? 11000)")
                 Image("iconHorus")
-                    .frame(width: 50, height: 50)
+                    .frame(width: 50)
+                    .padding()
             }
+                .frame(height: 50)
         }
             .padding()
+            .foregroundColor(.gold)
     }
 }
