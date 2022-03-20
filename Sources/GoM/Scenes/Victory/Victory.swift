@@ -26,7 +26,7 @@ class Victory: Scene {
         super.update(deltaTime: deltaTime)
         if Input.wasMouseButtonPressed(.left) ||
                Input.wasMouseButtonPressed(.right) ||
-               Input.wasMouseButtonPressed(.center) {
+               Input.wasMouseButtonPressed(.middle) {
             Game.transition(to: GameScene())
         }
     }

@@ -4,9 +4,8 @@ import PackageDescription
 
 let package = Package(
     name: "GoM",
-    platforms: [.macOS(.v11)],
     dependencies: [
-        .package(url: "https://github.com/JarWarren/WarrenEngine", .branch("master"))
+        .package(url: "https://github.com/JarWarren/WarrenEngine", .branch("strega"))
     ],
     targets: [
         .executableTarget(

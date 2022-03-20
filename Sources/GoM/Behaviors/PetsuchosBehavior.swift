@@ -31,7 +31,7 @@ class PetsuchosBehavior: Behavior {
                 Audio.playLaserSound()
             }
         } else if cooldown <= 120 {
-            laser?.color = Color(red: 255, green: 255, blue: 255, alpha: 255 % Int32(((cooldown - 60) / 60) * 255))
+            laser?.color = Color(red: 255, green: 255, blue: 255, alpha: 255 % UInt32(((cooldown - 60) / 60) * 255))
         } else {
             laser?.color = .clear
         }

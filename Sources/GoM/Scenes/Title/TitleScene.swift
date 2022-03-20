@@ -30,7 +30,7 @@ class TitleScene: Scene {
         // On click, begin game
         if Input.wasMouseButtonPressed(.left) ||
                Input.wasMouseButtonPressed(.right) ||
-               Input.wasMouseButtonPressed(.center) {
+               Input.wasMouseButtonPressed(.middle) {
             Game.transition(to: GameScene())
         }
     }

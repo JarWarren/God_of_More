@@ -2,11 +2,20 @@
   "object": {
     "pins": [
       {
+        "package": "Raylib",
+        "repositoryURL": "https://github.com/STREGAsGate/Raylib.git",
+        "state": {
+          "branch": "master",
+          "revision": "87da4bfba7a283c83c128186bd5d4b21beb38653",
+          "version": null
+        }
+      },
+      {
         "package": "WarrenEngine",
         "repositoryURL": "https://github.com/JarWarren/WarrenEngine",
         "state": {
-          "branch": "master",
-          "revision": "37a6f03db50e5334827e4aa5709239fe812edef8",
+          "branch": "strega",
+          "revision": "2f60ac9a1a1e291175326936a5d6fa4f553d872f",
           "version": null
         }
       }

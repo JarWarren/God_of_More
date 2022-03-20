@@ -1,7 +1,6 @@
 import Foundation
 import WarrenEngine
 
-@main
 class GameDelegate: GameLauncher, VideoGameDelegate {
     func launchSettings() -> LaunchSettings {
         LaunchSettings(
@@ -12,7 +11,11 @@ class GameDelegate: GameLauncher, VideoGameDelegate {
         )
     }
 
-    func gameWillFinishLaunching() { 
+    required init(with module: Bundle) {
+        super.init(with: module)
+    }
+
+    func gameWillFinishLaunching() {
         print("Hello, World!")
     }
 
